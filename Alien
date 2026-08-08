@@ -1,0 +1,49 @@
+-- โหลด Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- สร้าง หน้าต่าง UI (Window) ปรับธีมเป็น สีแดง (Red)
+local Window = Rayfield:CreateWindow({
+   Name = "Lucky Block easy boy Hub",
+   LoadingTitle = "กำลังโหลดระบบ...",
+   LoadingSubtitle = "by Your Assistant",
+   Theme = "Red", -- ปรับธีมเป็นสีแดงที่นี่
+
+   ConfigurationSaving = {
+      Enabled = false
+   },
+   Discord = {
+      Enabled = false
+   },
+   KeySystem = false
+})
+
+-- สร้าง แถบเมนูหลัก (Tab)
+local MainTab = Window:CreateTab("หน้าหลัก", 4483362458)
+
+-- สร้าง ปุ่มกด (Button) มีแค่ฟังชันก์เดียวตามที่ขอ
+local Button = MainTab:CreateButton({
+   Name = "เสก Lucky Block",
+   Callback = function()
+       -- เรียกใช้งาน RemoteEvent
+       local success, err = pcall(function()
+           game:GetService("ReplicatedStorage"):WaitForChild("SpawnLuckyBlock"):FireServer()
+       end)
+
+       -- แจ้งเตือนเมื่อกดปุ่ม
+       if success then
+           Rayfield:Notify({
+               Title = "สำเร็จ!",
+               Content = "ส่งคำขอเสก Lucky Block แล้ว",
+               Duration = 2,
+               Image = 4483362458,
+           })
+       else
+           Rayfield:Notify({
+               Title = "ผิดพลาด!",
+               Content = "ไม่พบ RemoteEvent หรือเกิดปัญหา",
+               Duration = 2,
+               Image = 4483362458,
+           })
+       end
+   end,
+})
